@@ -1,0 +1,15 @@
+{
+  "team_number": "",
+  "group_lead": {
+    "name": "Swastik Mishra",
+    "enrollment_no": "",
+    "github": "swas78"
+  },
+  "members": [
+    { "name": "", "enrollment_no": "", "github": "" },
+    { "name": "", "enrollment_no": "", "github": "" },
+    { "name": "", "enrollment_no": "", "github": "" }
+  ],
+  "postgres_version": "PostgreSQL 15",
+  "laptop_used_for_benchmarks": "macOS"
+}
