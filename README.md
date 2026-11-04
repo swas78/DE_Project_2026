@@ -22,10 +22,10 @@
 
 | Role | Name | Enrollment No. | GitHub Username |
 |------|------|----------------|-----------------|
-| Group Lead | | | |
-| Member 2 | | | |
-| Member 3 | | | |
-| Member 4 | | | |
+| Group Lead |Swastik Mishra |2501010469 | swas78|
+| Member 2 |Tanishkka |2501010473 |tansishkka27 |
+| Member 3 |Abhijeet Saini |2501010013 |abhijeet-s24 |
+| Member 4 |Kunal Agrawal |2501010238 |kunal-13106 |
 
 **Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
 
