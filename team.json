@@ -2,13 +2,13 @@
   "team_number": "",
   "group_lead": {
     "name": "Swastik Mishra",
-    "enrollment_no": "",
+    "enrollment_no": "2501010469",
     "github": "swas78"
   },
   "members": [
-    { "name": "", "enrollment_no": "", "github": "" },
-    { "name": "", "enrollment_no": "", "github": "" },
-    { "name": "", "enrollment_no": "", "github": "" }
+    { "name": "Tanishkka", "enrollment_no": "2501010473", "github": "Tanishkka27" },
+    { "name": "Kunal Agrawal", "enrollment_no": "2501010238", "github": "kunal-13106" },
+    { "name": "Abhijeet Saini", "enrollment_no": "2501010013", "github": "abhijeet-s24" }
   ],
   "postgres_version": "PostgreSQL 15",
   "laptop_used_for_benchmarks": "macOS"
