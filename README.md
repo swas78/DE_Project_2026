@@ -27,7 +27,7 @@
 | Member 3 |Kunal Agrawal |2501010238 |kunal-13106 |
 | Member 4 |Abhijeet Saini |2501010013 |abhijeet-s24 |
 
-**Team No.:** ____ · **Section:** ____ · **Repository URL:** ____
+**Team No.:** T0140 · **Section:** D · **Repository URL:** https://github.com/swas78/DE_Project_2026
 
 ---
 
