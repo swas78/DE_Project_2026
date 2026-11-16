@@ -133,7 +133,8 @@ CREATE TABLE wallet_transactions (
     reference_entry_id INT REFERENCES contest_entries(entry_id) ON DELETE RESTRICT,
     status             TEXT NOT NULL
                        CHECK (status IN ('SUCCESS', 'PENDING', 'FAILED')),
-    created_at         TIMESTAMPTZ NOT NULL
-    -- Load ke baad dekho kaunsi txn_type ko reference_entry_id chahiye,
-    -- phir yahan ek CHECK jodo (jaise ENTRY_FEE aur REFUND ke liye NOT NULL).
+    created_at         TIMESTAMPTZ NOT NULL,
+    -- ENTRY_FEE, REFUND, WINNINGS hamesha kisi contest entry se jude hain;
+    -- DEPOSIT, BONUS, WITHDRAWAL kisi entry se nahi jude
+    CHECK ((txn_type IN ('ENTRY_FEE', 'REFUND', 'WINNINGS')) = (reference_entry_id IS NOT NULL))
 );
