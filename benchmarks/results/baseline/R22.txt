@@ -1,0 +1,39 @@
+=== R22 run 1 ===
+Limit  (cost=12241.03..12241.09 rows=25 width=40) (actual time=22.522..22.524 rows=25.00 loops=1)
+  Buffers: shared hit=1107, temp read=561 written=834
+  ->  Sort  (cost=12116.03..12411.89 rows=118343 width=40) (actual time=19.992..21.682 rows=50025.00 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: external merge  Disk: 6656kB
+        Buffers: shared hit=1107, temp read=561 written=834
+        ->  Seq Scan on wallet_transactions  (cost=0.00..2287.43 rows=118343 width=40) (actual time=0.005..5.663 rows=118343.00 loops=1)
+              Buffers: shared hit=1104
+Planning:
+  Buffers: shared hit=92
+Planning Time: 0.173 ms
+Execution Time: 23.724 ms
+=== R22 run 2 ===
+Limit  (cost=12241.03..12241.09 rows=25 width=40) (actual time=22.758..22.760 rows=25.00 loops=1)
+  Buffers: shared hit=1107, temp read=561 written=834
+  ->  Sort  (cost=12116.03..12411.89 rows=118343 width=40) (actual time=20.232..21.913 rows=50025.00 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: external merge  Disk: 6656kB
+        Buffers: shared hit=1107, temp read=561 written=834
+        ->  Seq Scan on wallet_transactions  (cost=0.00..2287.43 rows=118343 width=40) (actual time=0.004..5.530 rows=118343.00 loops=1)
+              Buffers: shared hit=1104
+Planning:
+  Buffers: shared hit=92
+Planning Time: 0.168 ms
+Execution Time: 23.952 ms
+=== R22 run 3 ===
+Limit  (cost=12241.03..12241.09 rows=25 width=40) (actual time=23.746..23.748 rows=25.00 loops=1)
+  Buffers: shared hit=1107, temp read=561 written=834
+  ->  Sort  (cost=12116.03..12411.89 rows=118343 width=40) (actual time=20.987..22.924 rows=50025.00 loops=1)
+        Sort Key: created_at DESC
+        Sort Method: external merge  Disk: 6656kB
+        Buffers: shared hit=1107, temp read=561 written=834
+        ->  Seq Scan on wallet_transactions  (cost=0.00..2287.43 rows=118343 width=40) (actual time=0.004..5.697 rows=118343.00 loops=1)
+              Buffers: shared hit=1104
+Planning:
+  Buffers: shared hit=92
+Planning Time: 0.168 ms
+Execution Time: 24.933 ms
