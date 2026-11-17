@@ -1,5 +1,5 @@
 {
-  "team_number": "",
+  "team_number": "T0140",
   "group_lead": {
     "name": "Swastik Mishra",
     "enrollment_no": "2501010469",
@@ -10,6 +10,6 @@
     { "name": "Kunal Agrawal", "enrollment_no": "2501010238", "github": "kunal-13106" },
     { "name": "Abhijeet Saini", "enrollment_no": "2501010013", "github": "abhijeet-s24" }
   ],
-  "postgres_version": "PostgreSQL 15",
+  "postgres_version": "PostgreSQL 18",
   "laptop_used_for_benchmarks": "macOS"
 }

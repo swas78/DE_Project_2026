@@ -334,7 +334,7 @@ Har table ki dependencies sirf primary key ya candidate key pe tiki hain, isliye
 |---|---|---|
 | `player_match_stats.fantasy_points` | Runs, fours, sixes, wickets, catches wagairah se scoring rules lagake | Haan. Points ka formula badal sakta hai, to purane matches ke points ko "freeze" karke rakhna zaroori hai. Roz roz recompute karna bhi mehnga hai. Technically ye 3NF todta hai (stats se points nikalte hain), par ye jaan boojhke rakha gaya denormalization hai |
 | `user_teams.total_points` | Team ke har player ke fantasy_points ko captain (2x) aur vice-captain (1.5x) se multiply karke jodna | Haan. Leaderboard (R05) isi se rank karta hai, har baar sab players ka sum nikalna slow hoga. Points engine (W04) isse dobara calculate karta hai. Risk: stats badle aur total_points update na ho, to dono mismatch ho jayenge |
-| `contests.prize_pool` | `entry_fee x total_spots` ka ek hissa. Do examples mein 85% mila (83300 = 0.85 x 49 x 2000, aur 2125 = 0.85 x 25 x 100) | TODO: Abhijeet ke bonus check ka result yahan likho (ratio kitne contests mein 0.85 hai). Guaranteed contests mein prize pool fee se alag fixed ho sakta hai, isliye rakhna zaroori hai |
+| `contests.prize_pool` | `entry_fee x total_spots` ka ek hissa. Do examples mein 85% mila (83300 = 0.85 x 49 x 2000, aur 2125 = 0.85 x 25 x 100) | Data verification mein saare 2,544 contests (100.0%) mein prize pool exactly 85% (0.85) nikla: `ratio_0_85_count = 2544 / 2544 (100.00%)`. Guaranteed contests mein prize pool fee se alag fixed ho sakta hai, isliye rakhna zaroori hai |
 | `contest_entries.final_rank`, `winnings` | Contest ke andar `total_points` ka rank, aur rank se prize | Haan, kyunki result match ke baad ek baar final hota hai. Isko dobara compute karna slow aur risky hai |
 
 ## 9. Indexes jo abhi maujood hain
@@ -356,9 +356,32 @@ Is phase mein humne koi extra index nahi banaya. PostgreSQL PRIMARY KEY aur UNIQ
 
 Foreign key columns (jaise `wallet_transactions.user_id`, `user_teams.match_id`, `contest_entries.contest_id`) pe PostgreSQL index **nahi** banata. Isi wajah se baseline mein kai queries slow hongi, aur ye Phase 4 mein theek karenge.
 
-TODO: ye query chalake exact output yahan paste karo:
+Verification query aur exact output:
 ```bash
 psql dream11_db -c "SELECT tablename, indexname FROM pg_indexes WHERE schemaname='dream11' ORDER BY tablename, indexname;"
+```
+```text
+      tablename      |                  indexname                  
+---------------------+---------------------------------------------
+ contest_entries     | contest_entries_contest_id_user_team_id_key
+ contest_entries     | contest_entries_pkey
+ contests            | contests_invite_code_key
+ contests            | contests_pkey
+ matches             | matches_pkey
+ player_match_stats  | player_match_stats_pkey
+ players             | players_pkey
+ teams               | teams_pkey
+ teams               | teams_short_name_key
+ teams               | teams_team_name_key
+ user_team_players   | user_team_players_pkey
+ user_teams          | user_teams_pkey
+ user_teams          | user_teams_user_id_match_id_team_label_key
+ users               | users_email_key
+ users               | users_phone_key
+ users               | users_pkey
+ users               | users_username_key
+ wallet_transactions | wallet_transactions_pkey
+(18 rows)
 ```
 
 ## 10. Data load
@@ -372,18 +395,16 @@ Saari 10 files bina error ke load hui, aur row counts section 1 ki table se matc
 
 ## 11. Integrity checks
 
-TODO: Abhijeet ke result table se yahan bharo (7 checks, expected aur actual dono).
-
 | # | Check | Expected | Actual result | Pass? |
 |---|---|---|---|---|
-| 0 | Row counts (10 tables) | 18, 450, 212, 50000, 4444, 39975, 439925, 2544, 42746, 118343 | | |
-| 1 | Har team mein exactly 11 players | 39975 teams mein 11 | | |
-| 2 | Players us match ki 2 teams se | 0 bad rows | | |
-| 3 | Team match start ke baad nahi bani | 0 bad rows | | |
-| 4 | Har paid entry ka exactly 1 debit | 42746 entries mein 1 debit | | |
-| 5 | Captain/vice-captain team ke players mein | 0 bad rows | | |
-| 6 | Entry ki team aur contest ka match same | 0 bad rows | | |
-| 7 | Koi contest overfilled nahi | 0 bad contests | | |
+| 0 | Row counts (10 tables) | 18, 450, 212, 50000, 4444, 39975, 439925, 2544, 42746, 118343 | 18, 450, 212, 50000, 4444, 39975, 439925, 2544, 42746, 118343 (saare 10 match) | Pass |
+| 1 | Har team mein exactly 11 players | 39975 teams mein 11 | 39,775 teams mein 11 players, 200 teams mein 12 players | Fail (200 teams mein 12 players) |
+| 2 | Players us match ki 2 teams se | 0 bad rows | 0 violations mila | Pass |
+| 3 | Team match start ke baad nahi bani | 0 bad rows | 0 violations (saari teams match shuru hone se pehle bani) | Pass |
+| 4 | Har paid entry ka exactly 1 debit | 42746 entries mein 1 debit | 42,554 entries mein 1 debit, 192 entries mein 0 debit mila | Fail (192 entries ka wallet debit gayab hai) |
+| 5 | Captain/vice-captain team ke players mein | 0 bad rows | 0 violations (har team ka C aur VC unke 11 players mein se hai) | Pass |
+| 6 | Entry ki team aur contest ka match same | 0 bad rows | 0 violations | Pass |
+| 7 | Koi contest overfilled nahi | 0 bad contests | 0 overfilled contests | Pass |
 
 ## 12. Data mein mili problems aur observations
 
@@ -391,8 +412,8 @@ TODO: Abhijeet ke result table se yahan bharo (7 checks, expected aur actual don
 |---|---|---|
 | 1 | `users.email` 19,935 rows mein khaali hai | Isliye `email` NOT NULL nahi hai, par UNIQUE hai |
 | 2 | `matches.status` mein `LIVE` bhi hai | Sirf 1 match LIVE hai (baaki 202 COMPLETED, 6 UPCOMING, 3 ABANDONED). Statement mein bataya nahi tha |
-| 3 | `user_team_players` mein 200 rows zyada hain | 39,975 teams x 11 = 439,725, par file mein 439,925 rows hain. TODO: Abhijeet ke check 1 ka result likho (kitni teams mein 11 players nahi hain) |
-| 4 | Entry fee debit aur entries ka farak | wallet mein ENTRY_FEE rows 42,554 hain, jabki contest entries 42,746 hain. Matlab kam se kam 192 entries ka debit nahi hai. TODO: Abhijeet ke check 4 ka result likho |
+| 3 | `user_team_players` mein 200 rows zyada hain | 39,975 teams x 11 = 439,725, par file mein 439,925 rows hain. Check 1 se confirm hua ki exactly 200 teams aisi hain jinme 12 players hain (39,775 teams mein 11 players, 200 teams mein 12 players). |
+| 4 | Entry fee debit aur entries ka farak | wallet mein ENTRY_FEE rows 42,554 hain, jabki contest entries 42,746 hain. Check 4 se confirm hua ki exactly 192 contest entries aisi hain jinka wallet mein koi ENTRY_FEE debit record maujood nahi hai. |
 | 5 | 63,000 wallet rows mein `reference_entry_id` NULL hai | DEPOSIT, BONUS, WITHDRAWAL kisi entry se nahi jude, isliye ye sahi hai. Par isi ki wajah se `NOT IN` wali query R13 galat answer degi (Phase 4 mein dekhenge) |
 | 6 | `user_teams.total_points` 2,098 teams ka khaali hai | Jahan match ka result abhi nahi aaya |
 | 7 | `contest_entries.final_rank` 2,125 entries ka khaali hai | Jahan contest ka result abhi nahi aaya |
