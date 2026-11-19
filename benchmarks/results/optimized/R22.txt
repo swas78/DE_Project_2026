@@ -1,0 +1,50 @@
+=== R22 run 1 ===
+Limit  (cost=2603.80..2605.10 rows=25 width=40) (actual time=6.151..6.154 rows=25.00 loops=1)
+  Buffers: shared hit=468 read=191
+  ->  Index Scan using idx_wallet_created_at_desc on wallet_transactions  (cost=0.42..6162.25 rows=118343 width=40) (actual time=0.009..5.253 rows=50025.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=468 read=191
+Planning:
+  Buffers: shared hit=224
+Planning Time: 0.330 ms
+Execution Time: 6.166 ms
+=== R22 run 2 ===
+Limit  (cost=2603.80..2605.10 rows=25 width=40) (actual time=4.424..4.427 rows=25.00 loops=1)
+  Buffers: shared hit=659
+  ->  Index Scan using idx_wallet_created_at_desc on wallet_transactions  (cost=0.42..6162.25 rows=118343 width=40) (actual time=0.007..3.540 rows=50025.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=659
+Planning:
+  Buffers: shared hit=224
+Planning Time: 0.334 ms
+Execution Time: 4.439 ms
+=== R22 run 3 ===
+Limit  (cost=2603.80..2605.10 rows=25 width=40) (actual time=4.814..4.817 rows=25.00 loops=1)
+  Buffers: shared hit=659
+  ->  Index Scan using idx_wallet_created_at_desc on wallet_transactions  (cost=0.42..6162.25 rows=118343 width=40) (actual time=0.007..3.939 rows=50025.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=659
+Planning:
+  Buffers: shared hit=224
+Planning Time: 0.419 ms
+Execution Time: 4.830 ms
+=== R22 run 4 ===
+Limit  (cost=2603.80..2605.10 rows=25 width=40) (actual time=4.389..4.392 rows=25.00 loops=1)
+  Buffers: shared hit=659
+  ->  Index Scan using idx_wallet_created_at_desc on wallet_transactions  (cost=0.42..6162.25 rows=118343 width=40) (actual time=0.007..3.497 rows=50025.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=659
+Planning:
+  Buffers: shared hit=224
+Planning Time: 0.347 ms
+Execution Time: 4.405 ms
+=== R22 run 5 ===
+Limit  (cost=2603.80..2605.10 rows=25 width=40) (actual time=4.411..4.414 rows=25.00 loops=1)
+  Buffers: shared hit=659
+  ->  Index Scan using idx_wallet_created_at_desc on wallet_transactions  (cost=0.42..6162.25 rows=118343 width=40) (actual time=0.008..3.538 rows=50025.00 loops=1)
+        Index Searches: 1
+        Buffers: shared hit=659
+Planning:
+  Buffers: shared hit=224
+Planning Time: 0.376 ms
+Execution Time: 4.430 ms

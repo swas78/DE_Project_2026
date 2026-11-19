@@ -1,0 +1,70 @@
+=== R09 run 1 ===
+WindowAgg  (cost=3.13..8.55 rows=3 width=61) (actual time=0.693..0.712 rows=8.00 loops=1)
+  Window: w1 AS (ORDER BY created_at, txn_id)
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=1 read=3
+  ->  Index Only Scan using idx_wallet_user_status_created_covering on wallet_transactions  (cost=0.42..8.48 rows=3 width=29) (actual time=0.660..0.663 rows=8.00 loops=1)
+        Index Cond: ((user_id = 1006) AND (status = 'SUCCESS'::text))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=1 read=3
+Planning:
+  Buffers: shared hit=248 read=6
+Planning Time: 3.225 ms
+Execution Time: 0.804 ms
+=== R09 run 2 ===
+WindowAgg  (cost=3.13..8.55 rows=3 width=61) (actual time=0.141..0.152 rows=8.00 loops=1)
+  Window: w1 AS (ORDER BY created_at, txn_id)
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=4
+  ->  Index Only Scan using idx_wallet_user_status_created_covering on wallet_transactions  (cost=0.42..8.48 rows=3 width=29) (actual time=0.118..0.120 rows=8.00 loops=1)
+        Index Cond: ((user_id = 1006) AND (status = 'SUCCESS'::text))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=242
+Planning Time: 1.000 ms
+Execution Time: 0.245 ms
+=== R09 run 3 ===
+WindowAgg  (cost=3.13..8.55 rows=3 width=61) (actual time=0.385..0.414 rows=8.00 loops=1)
+  Window: w1 AS (ORDER BY created_at, txn_id)
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=4
+  ->  Index Only Scan using idx_wallet_user_status_created_covering on wallet_transactions  (cost=0.42..8.48 rows=3 width=29) (actual time=0.140..0.145 rows=8.00 loops=1)
+        Index Cond: ((user_id = 1006) AND (status = 'SUCCESS'::text))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=242
+Planning Time: 1.450 ms
+Execution Time: 0.506 ms
+=== R09 run 4 ===
+WindowAgg  (cost=3.13..8.55 rows=3 width=61) (actual time=0.068..0.075 rows=8.00 loops=1)
+  Window: w1 AS (ORDER BY created_at, txn_id)
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=4
+  ->  Index Only Scan using idx_wallet_user_status_created_covering on wallet_transactions  (cost=0.42..8.48 rows=3 width=29) (actual time=0.051..0.052 rows=8.00 loops=1)
+        Index Cond: ((user_id = 1006) AND (status = 'SUCCESS'::text))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=242
+Planning Time: 0.785 ms
+Execution Time: 0.121 ms
+=== R09 run 5 ===
+WindowAgg  (cost=3.13..8.55 rows=3 width=61) (actual time=0.104..0.117 rows=8.00 loops=1)
+  Window: w1 AS (ORDER BY created_at, txn_id)
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=4
+  ->  Index Only Scan using idx_wallet_user_status_created_covering on wallet_transactions  (cost=0.42..8.48 rows=3 width=29) (actual time=0.079..0.081 rows=8.00 loops=1)
+        Index Cond: ((user_id = 1006) AND (status = 'SUCCESS'::text))
+        Heap Fetches: 0
+        Index Searches: 1
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=242
+Planning Time: 1.255 ms
+Execution Time: 0.186 ms

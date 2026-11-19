@@ -1,0 +1,140 @@
+=== R08 run 1 ===
+Limit  (cost=33.23..33.26 rows=10 width=20) (actual time=0.272..0.274 rows=10.00 loops=1)
+  Buffers: shared hit=10
+  ->  Sort  (cost=33.23..33.89 rows=261 width=20) (actual time=0.271..0.272 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=10
+        ->  HashAggregate  (cost=24.98..27.59 rows=261 width=20) (actual time=0.253..0.256 rows=22.00 loops=1)
+              Group Key: p.full_name
+              Batches: 1  Memory Usage: 48kB
+              Buffers: shared hit=7
+              ->  Hash Join  (cost=14.41..23.68 rows=261 width=12) (actual time=0.162..0.210 rows=255.00 loops=1)
+                    Hash Cond: (ut.captain_id = p.player_id)
+                    Buffers: shared hit=7
+                    ->  Index Only Scan using idx_user_teams_match_captain on user_teams ut  (cost=0.29..8.86 rows=261 width=4) (actual time=0.058..0.073 rows=255.00 loops=1)
+                          Index Cond: (match_id = 207)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Hash  (cost=8.50..8.50 rows=450 width=16) (actual time=0.097..0.097 rows=450.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                          Buffers: shared hit=4
+                          ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=16) (actual time=0.009..0.047 rows=450.00 loops=1)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 1.256 ms
+Execution Time: 0.326 ms
+=== R08 run 2 ===
+Limit  (cost=33.23..33.26 rows=10 width=20) (actual time=0.477..0.481 rows=10.00 loops=1)
+  Buffers: shared hit=10
+  ->  Sort  (cost=33.23..33.89 rows=261 width=20) (actual time=0.476..0.479 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=10
+        ->  HashAggregate  (cost=24.98..27.59 rows=261 width=20) (actual time=0.444..0.451 rows=22.00 loops=1)
+              Group Key: p.full_name
+              Batches: 1  Memory Usage: 48kB
+              Buffers: shared hit=7
+              ->  Hash Join  (cost=14.41..23.68 rows=261 width=12) (actual time=0.270..0.363 rows=255.00 loops=1)
+                    Hash Cond: (ut.captain_id = p.player_id)
+                    Buffers: shared hit=7
+                    ->  Index Only Scan using idx_user_teams_match_captain on user_teams ut  (cost=0.29..8.86 rows=261 width=4) (actual time=0.092..0.122 rows=255.00 loops=1)
+                          Index Cond: (match_id = 207)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Hash  (cost=8.50..8.50 rows=450 width=16) (actual time=0.167..0.167 rows=450.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                          Buffers: shared hit=4
+                          ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=16) (actual time=0.011..0.079 rows=450.00 loops=1)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 1.540 ms
+Execution Time: 0.565 ms
+=== R08 run 3 ===
+Limit  (cost=33.23..33.26 rows=10 width=20) (actual time=0.518..0.521 rows=10.00 loops=1)
+  Buffers: shared hit=10
+  ->  Sort  (cost=33.23..33.89 rows=261 width=20) (actual time=0.517..0.519 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=10
+        ->  HashAggregate  (cost=24.98..27.59 rows=261 width=20) (actual time=0.481..0.488 rows=22.00 loops=1)
+              Group Key: p.full_name
+              Batches: 1  Memory Usage: 48kB
+              Buffers: shared hit=7
+              ->  Hash Join  (cost=14.41..23.68 rows=261 width=12) (actual time=0.307..0.399 rows=255.00 loops=1)
+                    Hash Cond: (ut.captain_id = p.player_id)
+                    Buffers: shared hit=7
+                    ->  Index Only Scan using idx_user_teams_match_captain on user_teams ut  (cost=0.29..8.86 rows=261 width=4) (actual time=0.122..0.151 rows=255.00 loops=1)
+                          Index Cond: (match_id = 207)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Hash  (cost=8.50..8.50 rows=450 width=16) (actual time=0.173..0.173 rows=450.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                          Buffers: shared hit=4
+                          ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=16) (actual time=0.015..0.082 rows=450.00 loops=1)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 1.579 ms
+Execution Time: 0.718 ms
+=== R08 run 4 ===
+Limit  (cost=33.23..33.26 rows=10 width=20) (actual time=0.450..0.453 rows=10.00 loops=1)
+  Buffers: shared hit=10
+  ->  Sort  (cost=33.23..33.89 rows=261 width=20) (actual time=0.449..0.451 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=10
+        ->  HashAggregate  (cost=24.98..27.59 rows=261 width=20) (actual time=0.419..0.426 rows=22.00 loops=1)
+              Group Key: p.full_name
+              Batches: 1  Memory Usage: 48kB
+              Buffers: shared hit=7
+              ->  Hash Join  (cost=14.41..23.68 rows=261 width=12) (actual time=0.248..0.340 rows=255.00 loops=1)
+                    Hash Cond: (ut.captain_id = p.player_id)
+                    Buffers: shared hit=7
+                    ->  Index Only Scan using idx_user_teams_match_captain on user_teams ut  (cost=0.29..8.86 rows=261 width=4) (actual time=0.085..0.112 rows=255.00 loops=1)
+                          Index Cond: (match_id = 207)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Hash  (cost=8.50..8.50 rows=450 width=16) (actual time=0.151..0.152 rows=450.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                          Buffers: shared hit=4
+                          ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=16) (actual time=0.011..0.071 rows=450.00 loops=1)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 1.321 ms
+Execution Time: 0.527 ms
+=== R08 run 5 ===
+Limit  (cost=33.23..33.26 rows=10 width=20) (actual time=0.464..0.467 rows=10.00 loops=1)
+  Buffers: shared hit=10
+  ->  Sort  (cost=33.23..33.89 rows=261 width=20) (actual time=0.463..0.465 rows=10.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=10
+        ->  HashAggregate  (cost=24.98..27.59 rows=261 width=20) (actual time=0.430..0.437 rows=22.00 loops=1)
+              Group Key: p.full_name
+              Batches: 1  Memory Usage: 48kB
+              Buffers: shared hit=7
+              ->  Hash Join  (cost=14.41..23.68 rows=261 width=12) (actual time=0.257..0.350 rows=255.00 loops=1)
+                    Hash Cond: (ut.captain_id = p.player_id)
+                    Buffers: shared hit=7
+                    ->  Index Only Scan using idx_user_teams_match_captain on user_teams ut  (cost=0.29..8.86 rows=261 width=4) (actual time=0.082..0.111 rows=255.00 loops=1)
+                          Index Cond: (match_id = 207)
+                          Heap Fetches: 0
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Hash  (cost=8.50..8.50 rows=450 width=16) (actual time=0.164..0.165 rows=450.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                          Buffers: shared hit=4
+                          ->  Seq Scan on players p  (cost=0.00..8.50 rows=450 width=16) (actual time=0.011..0.077 rows=450.00 loops=1)
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=306
+Planning Time: 1.490 ms
+Execution Time: 0.542 ms
