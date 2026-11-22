@@ -1,0 +1,63 @@
+=== R20 run 1 ===
+WindowAgg  (cost=5464.34..7157.99 rows=44788 width=68) (actual time=20.587..82.204 rows=28.00 loops=1)
+  Window: w1 AS (ORDER BY ((wallet_transactions.created_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=4 read=176
+  ->  GroupAggregate  (cost=5464.30..6486.17 rows=44788 width=36) (actual time=20.328..80.950 rows=28.00 loops=1)
+        Group Key: ((wallet_transactions.created_at)::date)
+        Buffers: shared hit=4 read=176
+        ->  Sort  (cost=5464.30..5580.98 rows=46674 width=9) (actual time=20.091..23.516 rows=44949.00 loops=1)
+              Sort Key: ((wallet_transactions.created_at)::date)
+              Sort Method: quicksort  Memory: 2941kB
+              Buffers: shared hit=4 read=176
+              ->  Index Only Scan using idx_wallet_deposits_created on wallet_transactions  (cost=0.42..1844.65 rows=46674 width=9) (actual time=2.319..15.827 rows=44949.00 loops=1)
+                    Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=1 read=176
+Planning:
+  Buffers: shared hit=275 read=4
+Planning Time: 2.700 ms
+Execution Time: 82.412 ms
+=== R20 run 2 ===
+WindowAgg  (cost=5464.34..7157.99 rows=44788 width=68) (actual time=13.719..20.389 rows=28.00 loops=1)
+  Window: w1 AS (ORDER BY ((wallet_transactions.created_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=180
+  ->  GroupAggregate  (cost=5464.30..6486.17 rows=44788 width=36) (actual time=13.453..20.150 rows=28.00 loops=1)
+        Group Key: ((wallet_transactions.created_at)::date)
+        Buffers: shared hit=180
+        ->  Sort  (cost=5464.30..5580.98 rows=46674 width=9) (actual time=13.197..14.911 rows=44949.00 loops=1)
+              Sort Key: ((wallet_transactions.created_at)::date)
+              Sort Method: quicksort  Memory: 2941kB
+              Buffers: shared hit=180
+              ->  Index Only Scan using idx_wallet_deposits_created on wallet_transactions  (cost=0.42..1844.65 rows=46674 width=9) (actual time=0.014..8.238 rows=44949.00 loops=1)
+                    Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=177
+Planning:
+  Buffers: shared hit=279
+Planning Time: 4.602 ms
+Execution Time: 20.456 ms
+=== R20 run 3 ===
+WindowAgg  (cost=5464.34..7157.99 rows=44788 width=68) (actual time=11.925..17.058 rows=28.00 loops=1)
+  Window: w1 AS (ORDER BY ((wallet_transactions.created_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=180
+  ->  GroupAggregate  (cost=5464.30..6486.17 rows=44788 width=36) (actual time=11.636..16.977 rows=28.00 loops=1)
+        Group Key: ((wallet_transactions.created_at)::date)
+        Buffers: shared hit=180
+        ->  Sort  (cost=5464.30..5580.98 rows=46674 width=9) (actual time=11.372..13.180 rows=44949.00 loops=1)
+              Sort Key: ((wallet_transactions.created_at)::date)
+              Sort Method: quicksort  Memory: 2941kB
+              Buffers: shared hit=180
+              ->  Index Only Scan using idx_wallet_deposits_created on wallet_transactions  (cost=0.42..1844.65 rows=46674 width=9) (actual time=0.011..7.889 rows=44949.00 loops=1)
+                    Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=177
+Planning:
+  Buffers: shared hit=279
+Planning Time: 21.634 ms
+Execution Time: 17.137 ms
