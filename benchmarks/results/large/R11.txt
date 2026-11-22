@@ -1,0 +1,159 @@
+=== R11 run 1 ===
+Sort  (cost=42194.98..42274.96 rows=31993 width=33) (actual time=374.058..375.514 rows=27549.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 2207kB
+  Buffers: shared hit=3921 read=17828 written=1
+  ->  HashAggregate  (cost=39481.10..39801.03 rows=31993 width=33) (actual time=367.816..372.037 rows=27549.00 loops=1)
+        Group Key: u.username
+        Batches: 1  Memory Usage: 2841kB
+        Buffers: shared hit=3918 read=17828 written=1
+        ->  Gather  (cost=24838.66..39321.14 rows=31993 width=25) (actual time=230.434..356.220 rows=31133.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3918 read=17828 written=1
+              ->  Hash Join  (cost=23838.66..35121.84 rows=13330 width=25) (actual time=224.831..355.808 rows=10377.67 loops=3)
+                    Hash Cond: (ce.contest_id = c.contest_id)
+                    Buffers: shared hit=3918 read=17828 written=1
+                    ->  Parallel Hash Join  (cost=23746.06..34994.19 rows=13330 width=29) (actual time=223.618..351.291 rows=10377.67 loops=3)
+                          Hash Cond: (ut.user_team_id = ce.user_team_id)
+                          Buffers: shared hit=3859 read=17800 written=1
+                          ->  Parallel Hash Join  (cost=19043.99..29913.49 rows=80057 width=29) (actual time=193.841..302.446 rows=62832.67 loops=3)
+                                Hash Cond: (ut.user_id = u.user_id)
+                                Buffers: shared hit=3826 read=15913 written=1
+                                ->  Parallel Seq Scan on user_teams ut  (cost=0.00..9995.09 rows=333109 width=8) (actual time=0.098..20.978 rows=266487.33 loops=3)
+                                      Buffers: shared hit=2886 read=3778
+                                ->  Parallel Hash  (cost=17792.25..17792.25 rows=100139 width=25) (actual time=193.541..193.541 rows=78476.33 loops=3)
+                                      Buckets: 262144  Batches: 1  Memory Usage: 16288kB
+                                      Buffers: shared hit=940 read=12135 written=1
+                                      ->  Parallel Bitmap Heap Scan on users u  (cost=3858.17..17792.25 rows=100139 width=25) (actual time=11.473..167.569 rows=78476.33 loops=3)
+                                            Recheck Cond: (state_code = ANY ('{AS,OD,TG,AP}'::bpchar[]))
+                                            Heap Blocks: exact=4090
+                                            Buffers: shared hit=940 read=12135 written=1
+                                            Worker 0:  Heap Blocks: exact=4237
+                                            Worker 1:  Heap Blocks: exact=4101
+                                            ->  Bitmap Index Scan on idx_users_banned_states  (cost=0.00..3798.09 rows=240333 width=0) (actual time=9.726..9.727 rows=235429.00 loops=1)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=1 read=646
+                          ->  Parallel Hash  (cost=3723.25..3723.25 rows=78306 width=8) (actual time=29.303..29.303 rows=44142.00 loops=3)
+                                Buckets: 262144  Batches: 1  Memory Usage: 7264kB
+                                Buffers: shared hit=33 read=1887
+                                ->  Parallel Seq Scan on contest_entries ce  (cost=0.00..3723.25 rows=78306 width=8) (actual time=10.909..17.388 rows=44142.00 loops=3)
+                                      Filter: (joined_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                                      Rows Removed by Filter: 37605
+                                      Buffers: shared hit=33 read=1887
+                    ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=1.197..1.198 rows=2544.00 loops=3)
+                          Buckets: 4096  Batches: 1  Memory Usage: 122kB
+                          Buffers: shared hit=59 read=28
+                          ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.131..0.859 rows=2544.00 loops=3)
+                                Filter: (entry_fee > '0'::numeric)
+                                Buffers: shared hit=59 read=28
+Planning:
+  Buffers: shared hit=490
+Planning Time: 2.872 ms
+Execution Time: 376.328 ms
+=== R11 run 2 ===
+Sort  (cost=42194.98..42274.96 rows=31993 width=33) (actual time=237.469..239.368 rows=27549.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 2207kB
+  Buffers: shared hit=2835 read=18913 written=3
+  ->  HashAggregate  (cost=39481.10..39801.03 rows=31993 width=33) (actual time=232.072..236.473 rows=27549.00 loops=1)
+        Group Key: u.username
+        Batches: 1  Memory Usage: 2841kB
+        Buffers: shared hit=2832 read=18913 written=3
+        ->  Gather  (cost=24838.66..39321.14 rows=31993 width=25) (actual time=77.353..219.546 rows=31133.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=2832 read=18913 written=3
+              ->  Hash Join  (cost=23838.66..35121.84 rows=13330 width=25) (actual time=74.875..222.632 rows=10377.67 loops=3)
+                    Hash Cond: (ce.contest_id = c.contest_id)
+                    Buffers: shared hit=2832 read=18913 written=3
+                    ->  Parallel Hash Join  (cost=23746.06..34994.19 rows=13330 width=29) (actual time=74.238..218.300 rows=10377.67 loops=3)
+                          Hash Cond: (ut.user_team_id = ce.user_team_id)
+                          Buffers: shared hit=2745 read=18913 written=3
+                          ->  Parallel Hash Join  (cost=19043.99..29913.49 rows=80057 width=29) (actual time=57.855..179.721 rows=62832.67 loops=3)
+                                Hash Cond: (ut.user_id = u.user_id)
+                                Buffers: shared hit=2712 read=17026 written=3
+                                ->  Parallel Seq Scan on user_teams ut  (cost=0.00..9995.09 rows=333109 width=8) (actual time=0.119..19.526 rows=266487.33 loops=3)
+                                      Buffers: shared hit=653 read=6011
+                                ->  Parallel Hash  (cost=17792.25..17792.25 rows=100139 width=25) (actual time=57.536..57.538 rows=78476.33 loops=3)
+                                      Buckets: 262144  Batches: 1  Memory Usage: 16288kB
+                                      Buffers: shared hit=2059 read=11015 written=3
+                                      ->  Parallel Bitmap Heap Scan on users u  (cost=3858.17..17792.25 rows=100139 width=25) (actual time=8.772..37.721 rows=78476.33 loops=3)
+                                            Recheck Cond: (state_code = ANY ('{AS,OD,TG,AP}'::bpchar[]))
+                                            Heap Blocks: exact=4175
+                                            Buffers: shared hit=2059 read=11015 written=3
+                                            Worker 0:  Heap Blocks: exact=4110
+                                            Worker 1:  Heap Blocks: exact=4143
+                                            ->  Bitmap Index Scan on idx_users_banned_states  (cost=0.00..3798.09 rows=240333 width=0) (actual time=7.657..7.657 rows=235429.00 loops=1)
+                                                  Index Searches: 1
+                                                  Buffers: shared read=646
+                          ->  Parallel Hash  (cost=3723.25..3723.25 rows=78306 width=8) (actual time=16.089..16.090 rows=44142.00 loops=3)
+                                Buckets: 262144  Batches: 1  Memory Usage: 7264kB
+                                Buffers: shared hit=33 read=1887
+                                ->  Parallel Seq Scan on contest_entries ce  (cost=0.00..3723.25 rows=78306 width=8) (actual time=2.201..7.299 rows=44142.00 loops=3)
+                                      Filter: (joined_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                                      Rows Removed by Filter: 37605
+                                      Buffers: shared hit=33 read=1887
+                    ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.625..0.625 rows=2544.00 loops=3)
+                          Buckets: 4096  Batches: 1  Memory Usage: 122kB
+                          Buffers: shared hit=87
+                          ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.066..0.344 rows=2544.00 loops=3)
+                                Filter: (entry_fee > '0'::numeric)
+                                Buffers: shared hit=87
+Planning:
+  Buffers: shared hit=490
+Planning Time: 1.236 ms
+Execution Time: 240.145 ms
+=== R11 run 3 ===
+Sort  (cost=42194.98..42274.96 rows=31993 width=33) (actual time=300.019..302.049 rows=27549.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 2207kB
+  Buffers: shared hit=15567 read=6181
+  ->  HashAggregate  (cost=39481.10..39801.03 rows=31993 width=33) (actual time=290.996..297.500 rows=27549.00 loops=1)
+        Group Key: u.username
+        Batches: 1  Memory Usage: 2841kB
+        Buffers: shared hit=15564 read=6181
+        ->  Gather  (cost=24838.66..39321.14 rows=31993 width=25) (actual time=108.413..267.281 rows=31133.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=15564 read=6181
+              ->  Hash Join  (cost=23838.66..35121.84 rows=13330 width=25) (actual time=98.093..268.701 rows=10377.67 loops=3)
+                    Hash Cond: (ce.contest_id = c.contest_id)
+                    Buffers: shared hit=15564 read=6181
+                    ->  Parallel Hash Join  (cost=23746.06..34994.19 rows=13330 width=29) (actual time=97.450..263.482 rows=10377.67 loops=3)
+                          Hash Cond: (ut.user_team_id = ce.user_team_id)
+                          Buffers: shared hit=15477 read=6181
+                          ->  Parallel Hash Join  (cost=19043.99..29913.49 rows=80057 width=29) (actual time=73.937..214.547 rows=62832.67 loops=3)
+                                Hash Cond: (ut.user_id = u.user_id)
+                                Buffers: shared hit=13581 read=6157
+                                ->  Parallel Seq Scan on user_teams ut  (cost=0.00..9995.09 rows=333109 width=8) (actual time=0.089..21.979 rows=266487.33 loops=3)
+                                      Buffers: shared hit=852 read=5812
+                                ->  Parallel Hash  (cost=17792.25..17792.25 rows=100139 width=25) (actual time=73.584..73.585 rows=78476.33 loops=3)
+                                      Buckets: 262144  Batches: 1  Memory Usage: 16288kB
+                                      Buffers: shared hit=12729 read=345
+                                      ->  Parallel Bitmap Heap Scan on users u  (cost=3858.17..17792.25 rows=100139 width=25) (actual time=11.465..48.898 rows=78476.33 loops=3)
+                                            Recheck Cond: (state_code = ANY ('{AS,OD,TG,AP}'::bpchar[]))
+                                            Heap Blocks: exact=4247
+                                            Buffers: shared hit=12729 read=345
+                                            Worker 0:  Heap Blocks: exact=3973
+                                            Worker 1:  Heap Blocks: exact=4208
+                                            ->  Bitmap Index Scan on idx_users_banned_states  (cost=0.00..3798.09 rows=240333 width=0) (actual time=9.666..9.666 rows=235429.00 loops=1)
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=646
+                          ->  Parallel Hash  (cost=3723.25..3723.25 rows=78306 width=8) (actual time=23.077..23.078 rows=44142.00 loops=3)
+                                Buckets: 262144  Batches: 1  Memory Usage: 7264kB
+                                Buffers: shared hit=1896 read=24
+                                ->  Parallel Seq Scan on contest_entries ce  (cost=0.00..3723.25 rows=78306 width=8) (actual time=4.372..11.656 rows=44142.00 loops=3)
+                                      Filter: (joined_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone)
+                                      Rows Removed by Filter: 37605
+                                      Buffers: shared hit=1896 read=24
+                    ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.630..0.630 rows=2544.00 loops=3)
+                          Buckets: 4096  Batches: 1  Memory Usage: 122kB
+                          Buffers: shared hit=87
+                          ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.023..0.366 rows=2544.00 loops=3)
+                                Filter: (entry_fee > '0'::numeric)
+                                Buffers: shared hit=87
+Planning:
+  Buffers: shared hit=468 read=22
+Planning Time: 6.939 ms
+Execution Time: 303.050 ms

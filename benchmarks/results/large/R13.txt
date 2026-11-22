@@ -1,0 +1,72 @@
+=== R13 run 1 ===
+Hash Join  (cost=93.68..14595.10 rows=21107 width=16) (actual time=1.152..69.437 rows=816.00 loops=1)
+  Hash Cond: (ce.contest_id = c.contest_id)
+  Buffers: shared hit=61 read=3350
+  ->  Merge Anti Join  (cost=1.08..14447.00 rows=21107 width=16) (actual time=0.508..68.486 rows=816.00 loops=1)
+        Merge Cond: (ce.entry_id = w.reference_entry_id)
+        Buffers: shared hit=32 read=3350
+        ->  Index Scan using contest_entries_pkey on contest_entries ce  (cost=0.42..8298.05 rows=245242 width=16) (actual time=0.016..27.020 rows=245242.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=32 read=2518
+        ->  Index Only Scan using idx_wallet_reference_entry_id on wallet_transactions w  (cost=0.42..8063.51 rows=1577740 width=4) (actual time=0.404..19.564 rows=317740.00 loops=1)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared read=832
+  ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.568..0.569 rows=2544.00 loops=1)
+        Buckets: 4096  Batches: 1  Memory Usage: 122kB
+        Buffers: shared hit=29
+        ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.016..0.338 rows=2544.00 loops=1)
+              Filter: (entry_fee > '0'::numeric)
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=449 read=14
+Planning Time: 3.536 ms
+Execution Time: 69.530 ms
+=== R13 run 2 ===
+Hash Join  (cost=93.68..14595.10 rows=21107 width=16) (actual time=0.811..59.048 rows=816.00 loops=1)
+  Hash Cond: (ce.contest_id = c.contest_id)
+  Buffers: shared hit=3411
+  ->  Merge Anti Join  (cost=1.08..14447.00 rows=21107 width=16) (actual time=0.186..58.135 rows=816.00 loops=1)
+        Merge Cond: (ce.entry_id = w.reference_entry_id)
+        Buffers: shared hit=3382
+        ->  Index Scan using contest_entries_pkey on contest_entries ce  (cost=0.42..8298.05 rows=245242 width=16) (actual time=0.004..19.721 rows=245242.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=2550
+        ->  Index Only Scan using idx_wallet_reference_entry_id on wallet_transactions w  (cost=0.42..8063.51 rows=1577740 width=4) (actual time=0.055..15.544 rows=317740.00 loops=1)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=832
+  ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.604..0.604 rows=2544.00 loops=1)
+        Buckets: 4096  Batches: 1  Memory Usage: 122kB
+        Buffers: shared hit=29
+        ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.015..0.370 rows=2544.00 loops=1)
+              Filter: (entry_fee > '0'::numeric)
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=463
+Planning Time: 1.505 ms
+Execution Time: 59.113 ms
+=== R13 run 3 ===
+Hash Join  (cost=93.68..14595.10 rows=21107 width=16) (actual time=0.504..60.667 rows=816.00 loops=1)
+  Hash Cond: (ce.contest_id = c.contest_id)
+  Buffers: shared hit=3411
+  ->  Merge Anti Join  (cost=1.08..14447.00 rows=21107 width=16) (actual time=0.091..59.975 rows=816.00 loops=1)
+        Merge Cond: (ce.entry_id = w.reference_entry_id)
+        Buffers: shared hit=3382
+        ->  Index Scan using contest_entries_pkey on contest_entries ce  (cost=0.42..8298.05 rows=245242 width=16) (actual time=0.004..19.458 rows=245242.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=2550
+        ->  Index Only Scan using idx_wallet_reference_entry_id on wallet_transactions w  (cost=0.42..8063.51 rows=1577740 width=4) (actual time=0.026..18.179 rows=317740.00 loops=1)
+              Heap Fetches: 0
+              Index Searches: 1
+              Buffers: shared hit=832
+  ->  Hash  (cost=60.80..60.80 rows=2544 width=4) (actual time=0.405..0.405 rows=2544.00 loops=1)
+        Buckets: 4096  Batches: 1  Memory Usage: 122kB
+        Buffers: shared hit=29
+        ->  Seq Scan on contests c  (cost=0.00..60.80 rows=2544 width=4) (actual time=0.005..0.235 rows=2544.00 loops=1)
+              Filter: (entry_fee > '0'::numeric)
+              Buffers: shared hit=29
+Planning:
+  Buffers: shared hit=463
+Planning Time: 1.302 ms
+Execution Time: 60.738 ms
