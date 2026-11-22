@@ -1,0 +1,27 @@
+=== R10 run 1 ===
+Index Scan using idx_wallet_pending_withdrawals on wallet_transactions  (cost=0.28..18.69 rows=252 width=25) (actual time=0.128..1.474 rows=2000.00 loops=1)
+  Index Cond: (created_at < ('2026-06-30 23:59:00+05:30'::timestamp with time zone - '24:00:00'::interval))
+  Index Searches: 1
+  Buffers: shared read=139
+Planning:
+  Buffers: shared hit=235 read=3
+Planning Time: 1.368 ms
+Execution Time: 1.553 ms
+=== R10 run 2 ===
+Index Scan using idx_wallet_pending_withdrawals on wallet_transactions  (cost=0.28..18.69 rows=252 width=25) (actual time=0.017..0.796 rows=2000.00 loops=1)
+  Index Cond: (created_at < ('2026-06-30 23:59:00+05:30'::timestamp with time zone - '24:00:00'::interval))
+  Index Searches: 1
+  Buffers: shared hit=139
+Planning:
+  Buffers: shared hit=238
+Planning Time: 1.141 ms
+Execution Time: 0.878 ms
+=== R10 run 3 ===
+Index Scan using idx_wallet_pending_withdrawals on wallet_transactions  (cost=0.28..18.69 rows=252 width=25) (actual time=0.021..0.803 rows=2000.00 loops=1)
+  Index Cond: (created_at < ('2026-06-30 23:59:00+05:30'::timestamp with time zone - '24:00:00'::interval))
+  Index Searches: 1
+  Buffers: shared hit=139
+Planning:
+  Buffers: shared hit=238
+Planning Time: 0.921 ms
+Execution Time: 0.889 ms
