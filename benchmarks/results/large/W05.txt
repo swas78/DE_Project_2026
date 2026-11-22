@@ -1,0 +1,36 @@
+=== W05 run 1 ===
+Update on wallet_transactions  (cost=0.28..19.95 rows=0 width=0) (actual time=354.761..354.763 rows=0.00 loops=1)
+  Buffers: shared hit=27349 read=1133 dirtied=1131 written=12
+  ->  Index Scan using idx_wallet_pending_withdrawals on wallet_transactions  (cost=0.28..19.95 rows=252 width=38) (actual time=0.577..22.425 rows=2000.00 loops=1)
+        Index Cond: (created_at < ('2026-06-30 23:59:00+05:30'::timestamp with time zone - '24:00:00'::interval))
+        Filter: ((txn_type = 'WITHDRAWAL'::text) AND (status = 'PENDING'::text))
+        Index Searches: 1
+        Buffers: shared read=139
+Planning:
+  Buffers: shared hit=205 read=6
+Planning Time: 7.211 ms
+Execution Time: 354.991 ms
+=== W05 run 2 ===
+Update on wallet_transactions  (cost=0.28..19.95 rows=0 width=0) (actual time=79.651..79.654 rows=0.00 loops=1)
+  Buffers: shared hit=30191 read=19 dirtied=42 written=23
+  ->  Index Scan using idx_wallet_pending_withdrawals on wallet_transactions  (cost=0.28..19.95 rows=252 width=38) (actual time=0.031..36.995 rows=2000.00 loops=1)
+        Index Cond: (created_at < ('2026-06-30 23:59:00+05:30'::timestamp with time zone - '24:00:00'::interval))
+        Filter: ((txn_type = 'WITHDRAWAL'::text) AND (status = 'PENDING'::text))
+        Index Searches: 1
+        Buffers: shared hit=139
+Planning:
+  Buffers: shared hit=211
+Planning Time: 1.387 ms
+Execution Time: 79.833 ms
+=== W05 run 3 ===
+Update on wallet_transactions  (cost=0.28..19.95 rows=0 width=0) (actual time=24.041..24.042 rows=0.00 loops=1)
+  Buffers: shared hit=31567 read=6 dirtied=21 written=13
+  ->  Index Scan using idx_wallet_pending_withdrawals on wallet_transactions  (cost=0.28..19.95 rows=252 width=38) (actual time=0.028..0.940 rows=2000.00 loops=1)
+        Index Cond: (created_at < ('2026-06-30 23:59:00+05:30'::timestamp with time zone - '24:00:00'::interval))
+        Filter: ((txn_type = 'WITHDRAWAL'::text) AND (status = 'PENDING'::text))
+        Index Searches: 1
+        Buffers: shared hit=139
+Planning:
+  Buffers: shared hit=211
+Planning Time: 1.724 ms
+Execution Time: 24.163 ms
